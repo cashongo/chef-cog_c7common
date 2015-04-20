@@ -7,19 +7,19 @@ package ['lsof','strace','sysstat','curl','wget','openssh-clients','gcc','make',
 	action	:install
 end
 
-timezone = node['timezone']
+timezone = node['cog_c7common']['timezone']
 
 execute "set timezone" do
 	command "timedatectl set-timezone #{timezone}"
 	action :run
 end
 
-servername = node['servername']
+servername = node['cog_c7common']['servername']
 
 execute "set timezone" do
 	command "hostnamectl set-hostname #{servername}"
 	action :run
-	only_if { node['servername'] && node['servername'] != node['machinename'] }
+	only_if { node['cog_c7common']['servername'] && node['cog_c7common']['servername'] != node['machinename'] }
 end
 
 template "/root/.bashrc" do
@@ -28,7 +28,7 @@ template "/root/.bashrc" do
 	owner "root"
 	group "root"
 	action :create
-	only_if { node['shortname']}
+	only_if { node['cog_c7common']['shortname']}
 end
 
 template "/etc/motd" do
@@ -37,5 +37,5 @@ template "/etc/motd" do
 	owner "root"
 	group "root"
 	action :create
-	only_if { node['motd']}
+	only_if { node['cog_c7common']['motd']}
 end
